@@ -23,4 +23,5 @@ urlpatterns = [
     path("",home,name='home'),
     path("signup/",signuppage,name="signup"),
     path('login/',loginview,name='login'),
+    path("jobdetails/<int:id>/",jobdetails,name="jobdetails"),
 ]

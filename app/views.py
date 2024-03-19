@@ -1,13 +1,15 @@
 from django.shortcuts import render,redirect
 from .form import *
 from django.contrib.auth import authenticate,login,logout
+from.models import *
 
 
 
 
 
 def  home(request):
-    return render(request,'home.html')
+    job=Job.objects.all()[0:3]
+    return render(request,'home.html',{'job':job})
 
 
 def signuppage(request):
@@ -40,6 +42,8 @@ def logoutview(request):
     return redirect("home")
 
 
-
+def jobdetails(request,id):
+    job=Job.objects.get(pk=id)
+    return render(request,'jobdetails.html',{ "job":job })
         
         

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} Job Details{% endblock title %}
+
+{% block content %}
+<h1>Job Details</h1>
+    <div class="col-5 offset-2">
+        <p><strong>Title: </strong>{{job.title}}</p>
+        <strong>Company :{{job.company}}</strong>
+        <p>Description :{{job.description}}</p>
+        <p>Created_at :{{job.created_at}}</p>
+        <p>End_date :{{job.end_date}}</p>
+        
+    </div>
+
+{% endblock content %}

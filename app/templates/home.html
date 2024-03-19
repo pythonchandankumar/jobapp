@@ -4,6 +4,26 @@
 {% endblock title %}
 
 {% block content %}
-    <h2>Home page</h2>
+    <h2 class="subtitle has-text-centered"> Newest Job</h2>
+    <div class="row">
+        {% for j in job %}
+            <div class="col-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <p class="fw-bold"><strong>Title </strong> :{{j.title}}</p>
+                        <p class="company"><strong>Company </strong> :{{j.company}}</p>
+                        <p class="description"><strong>Description </strong>:{{j.description}}</p>
+                        <p class="created_at"><strong>Created_at</strong> :{{j.created_at}}</p>
+                        <div>
+                        <p class="end_date"><strong>End Date</strong> :{{j.end_date}}</p>
+                        </div>
+                        <hr> 
+                        <a href="{% url 'jobdetails' j.id %}" class="btn btn-success rounded-5">view</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 
 {% endblock content %}
