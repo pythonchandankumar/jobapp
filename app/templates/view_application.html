@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+    View_Application
+{% endblock title %}
+
+{% block content %}
+    <h1>Applied Applications</h1>
+    <h2 class="subtitle">{{application.job.title}}</h2>
+    <small>Date Added :{{application.create_at}}</small>
+    <p><strong>Content : </strong>{{application.content}}</p>
+    <p><strong>Experience : </strong>{{application.experience}}</p>
+
+{% endblock content %}

@@ -9,7 +9,7 @@
         <p>Description :{{job.description}}</p>
         <p>Created_at :{{job.created_at}}</p>
         <p>End_date :{{job.end_date}}</p>
-        
+        <a href="{% url 'applyjob' job.id %}" class="btn btn-outline-success">Apply for this job</a>
     </div>
 
 {% endblock content %}

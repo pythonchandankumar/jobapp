@@ -23,3 +23,22 @@ class Loginform(AuthenticationForm):
         password=forms.CharField(label=_("password"),strip=False,widget=forms.PasswordInput(attrs={'autocomplete':'current password', 'class':'form-control'}))
 
 
+class AddJobform(forms.ModelForm):
+     class Meta:
+          model=Job
+          fields=['title','company','description']
+          widgets={
+               'title':forms.TextInput(attrs={'placeholder':'Title of the job...','class':'form-control'}),
+               'company':forms.TextInput(attrs={'placeholder':'Company name...',"class":"form-control"}),
+               'description':forms.Textarea(attrs={'rows':'5','cols':'40','placeholder':'Description of the Job...',"class":"form-control"})
+          }
+    
+
+class ApplicationJobform(forms.ModelForm):
+     class Meta:
+          model=Application
+          fields=['content','experience']
+          widgets={
+               'content':forms.Textarea(attrs={'rows':'5','cols':'40','placeholder':'Your application content here...','class':'form-control'}),
+               'experience':forms.Select(choices=[('0-1 year','0-1 years'), ('1-3 years','1-3 years'),('3+ years','3+ years')]),
+          }

@@ -14,13 +14,24 @@
             {% for fm in form %}
             {{fm.label_tag }}{{fm}} <small class="text-danger">{{fm.errors|striptags}}</small><br>
             {% endfor %}
-            <input type="submit" valu="submit" class="btn btn-primary">
             {% if form.non_field_errors %}
                     {% for error in form.non_field_errors %}
                         <span class="text-danger">{{error}}</span>
                     {% endfor %}
                 {% endif %}
-            
+                <hr>
+                <div class='field'>
+                    <label>Account Type </label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="account_type">
+                                <option value="jobseeker" selected> jobseeker</option>
+                                <option value="employer"> employer</option>
+                            </select>
+                        </div>
+                    </div>
+                </div><br>
+                <input type="submit" valu="Sign up" class="btn btn-primary">
         </form>
     </div>
 
