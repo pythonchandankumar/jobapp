@@ -5,19 +5,22 @@ from django.contrib.auth import login,logout,authenticate
 from .form import *
 
 # Create your views here.
-def home(request):
+def candidate(request):
     if request.user.is_authenticated:
-        candidates=Candidates.objects.filter(company__name=request.user.username)
-        context={
-            'candidates':candidates,
-        }
-        return render(request,'hr.html',context)
+        candidates=Candidates.objects.all()
+    
+        return render(request,'hr.html',{'candidates':candidates})
     else:
+        return redirect('home')
+    
+
+def home(request):
         companies=Company.objects.all()
         context={
             'companies':companies,
         }
         return render(request,'Jobseeker.html',context)
+
 
 
 def logoutUser(request):
@@ -36,7 +39,7 @@ def loginUser(request):
 
         if user is not None:
             login(request,user)
-            return redirect('home')
+            return redirect('candidate')
        return render(request,'login.html')
 
 
@@ -59,12 +62,12 @@ def registerUser(request):
 
 
 def applyPage(request):
-    form=ApplyForm()
-    if request.method=='POST':
-        form=ApplyForm(request.POST,request.FILES)
-
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context={'form':form}
-    return render(request,'apply.html',context)
+            form=ApplyForm()
+            if request.method=='POST':
+                form=ApplyForm(request.POST,request.FILES)
+                if form.is_valid():
+                    form.save()
+                    return redirect('home')
+            context={'form':form}
+            return render(request,'apply.html',context)
+    

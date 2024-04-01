@@ -4,16 +4,22 @@
 {% block content %}
 <head>
     <style>
-        .box{
-            border:5px solid black;
+        .card{
+            background-color: #f8f9fa;
         }
     </style>
 </head>
-<div class=" box jumbotron container">
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" class="btn btn-success btn-sm" value="submit">
-    </form>
+<div class="col-7 offset-2">
+    <div class="form-control">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <input type="submit" class="btn btn-success" value="submit">
+                    </form>
+                </div>
+            </div>
+    </div>
 </div>
 {% endblock %}

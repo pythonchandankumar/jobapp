@@ -27,8 +27,9 @@ class Candidates(models.Model):
     gender= models.CharField(max_length=200,null=True,choices=category)
     mobile= models.CharField(max_length=200,null=True)
     email= models.CharField(max_length=200,null=True)
-    resume=models.FileField(null=True)
-    company=models.ManyToManyField(Company,blank=True)
+    resume=models.FileField(upload_to='resume/',null=True)
+    company=models.ForeignKey(Company, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+    

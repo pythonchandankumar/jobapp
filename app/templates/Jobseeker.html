@@ -20,16 +20,13 @@
                     <td>{{c.name}}</td>
                     <td>{{c.position}}</td>
                     <td>{{c.description}}</td>
-                    <td>{{c.salary}}</td>
-                    <td>{{c.experience}}</td>
+                    <td>{{c.salary}} per year</td>
+                    <td>{{c.experience}} year</td>
                     <td>{{c.Location}}</td>
-                    <td><a href="{% url 'apply' %}" class="btn btn-info btn-sm" type="submit">Apply</a></td>
+                    <td><a href="{% url 'apply' %}" class="btn btn-info " type="submit">Apply</a></td>
                 </tr>
             {% endfor %}
         </table>
     </div>
 </div>
-        {% for c in companies %}
-            {{c.name}}
-        {% endfor %}
 {% endblock %}
