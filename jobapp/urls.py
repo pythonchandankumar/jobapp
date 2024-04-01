@@ -17,16 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app.views import *
+from django.contrib.auth import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home,name='home'),
-    path("signup/",signuppage,name="signup"),
-    path('login/',loginview,name='login'),
-    path('logout/',logout,name="logout"),
-    path("jobdetails/<int:id>/",jobdetails,name="jobdetails"),
-    path("userprofile/",userdashboard,name="userprofile"),
-    path('addjob/',add_job,name='addjob'),
-    path('applyjob/<int:id>/',applyjob,name='applyjob'),
-    path('view_application/<int:application_id>/',view_applicantion, name='view_application'),
-]
+    path('login/',loginUser,name='login'),
+    path('logout/',logoutUser,name='logout'),
+    path('register/',registerUser,name='register'),
+    path('apply/',applyPage,name='apply'),
+
+
+]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

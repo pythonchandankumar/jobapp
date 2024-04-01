@@ -3,6 +3,6 @@ from .models import *
 
 
 
-admin.site.register(Job)
-admin.site.register(UserProfile)
-admin.site.register(Application)
+admin.site.register(Company)
+admin.site.register(Candidates)
+

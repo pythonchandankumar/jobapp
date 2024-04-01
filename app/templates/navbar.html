@@ -1,0 +1,27 @@
+<head>
+    <style>
+      .user{
+        color:white;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <a class="navbar-brand mx-2" href="{% url 'home' %}"> HOME </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+     
+      </div>
+      {% if request.user.is_authenticated %}
+      <span class="user mx-3">Hello, {{request.user}}</span>
+      <span ><a  class="user btn btn-info" href ="{% url 'logout' %}"> Logout</a></span>
+      {% else %}
+          <span ><a class="user mx-4  " href="{% url 'login' %}"> Login </a></span>
+          <span ><a class="user mx-3"  href="{% url 'register' %}"> Register </a></span>
+      {% endif  %}
+      
+      
+    </nav>

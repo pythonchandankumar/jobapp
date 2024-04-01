@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+{% load static%}
+
+{% block content %}
+<head>
+    <style>
+        .card{
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<div class="col-4 offset-3">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Register</h3>
+            <form method="POST"  action="">
+                {% csrf_token %}
+                {% for fm in form %}
+                {{fm.label_tag }}<div class="form-control">{{fm}}</div> <small class="text-danger">{{fm.errors|striptags}}</small><br>
+                    {% endfor %}
+                    <input class="btn btn-success rounded-5" type="submit" value="Register">
+                    <p class="text-center">Already have an account <a href='{% url "login" %}'> Login</a></p>
+
+                    {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <span class="text-danger">{{error}}</span>
+                    {% endfor %}
+                {% endif %}
+            
+            </form>
+        </div>
+    </div>
+</div>
+      
+{% endblock %}

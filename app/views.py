@@ -1,96 +1,70 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,redirect
+from .models import *
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login,logout,authenticate
 from .form import *
-from django.contrib.auth import authenticate,login,logout
-from.models import *
-from django.http  import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
 
-
-
-
-
-def  home(request):
-    job=Job.objects.all()[0:3]
-    return render(request,'home.html',{'job':job})
-
-
-def signuppage(request):
-    if request.method == 'POST':
-        form = Signup(request.POST)
-        if form.is_valid():
-            user=form.save()
-            account_type=request.POST.get('account_type','jobseeker')
-            if account_type == 'employer' :
-                userprofile=UserProfile.objects.create(user=user,is_employer=True)
-                userprofile.save()
-                return HttpResponseRedirect("/login/")
-            else:
-                userprofile=UserProfile.objects.create(user=user,is_employer=False)
-                userprofile.save()
-                return HttpResponseRedirect("/login/")
+# Create your views here.
+def home(request):
+    if request.user.is_authenticated:
+        candidates=Candidates.objects.filter(company__name=request.user.username)
+        context={
+            'candidates':candidates,
+        }
+        return render(request,'hr.html',context)
     else:
-        form=Signup()
-    return render(request,'signup.html',{'form':form})
+        companies=Company.objects.all()
+        context={
+            'companies':companies,
+        }
+        return render(request,'Jobseeker.html',context)
 
 
-def loginview(request):
-    if request.method=="POST":
-        fm=Loginform(request.POST)
-        if fm.is_valid():
-            u=fm.cleaned_data['username']
-            p=fm.cleaned_data['password']
-            user=authenticate(username=u, password=p)
-            if user is not None:
-                login(request,user)
-                return HttpResponseRedirect('/')
-    else:
-        fm=Loginform()
-    return render(request,'login.html',{'form':fm})
-
-
-def logoutview(request):
+def logoutUser(request):
     logout(request)
-    return HttpResponseRedirect('/')
+    return redirect('login')
 
 
-def jobdetails(request,id):
-    job=Job.objects.get(pk=id)
-    return render(request,'jobdetails.html',{ "job":job })
-        
+def loginUser(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+       if request.method=="POST":
+        name=request.POST.get('username')
+        pwd=request.POST.get('password')
+        user=authenticate(request,username=name,password=pwd)
 
-def userdashboard(request):
-    return render(request,'userprofile.html',{"userprofile":request.user.userprofile})
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+       return render(request,'login.html')
 
 
-def add_job(request):
+def registerUser(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        Form=UserCreationForm()
+        if request.method=='POST':
+            Form=UserCreationForm(request.POST)
+
+            if Form.is_valid():
+                currUser=Form.save()
+                Company.objects.create(user=currUser,name=currUser.username)
+                return redirect('login')
+        context={
+            'form':Form
+        }
+        return render(request,'register.html',context)
+
+
+def applyPage(request):
+    form=ApplyForm()
     if request.method=='POST':
-        form=AddJobform(request.POST)
+        form=ApplyForm(request.POST,request.FILES)
+
         if form.is_valid():
-            job=form.save(commit=False)
-            job.created_by=request.user
-            job.save()
-            return HttpResponseRedirect("/")
-    else:
-        form=AddJobform()
-    return render(request,'addjob.html',{'form':form})
-
-
-
-def applyjob(request,id):
-    job=Job.objects.get(pk=id)
-    if request.method=="POST":
-        form=ApplicationJobform(request.POST)
-        if form.is_valid():
-            application=form.save(commit=False)
-            application.job=job
-            application.created_by=request.user
-            application.save()
-            return HttpResponseRedirect('/')    
-    else:
-        form=ApplicationJobform()
-    return render(request,'applyjob.html',{'form':form,'job':job})
-
-
-def view_applicantion(request,applicantion_id):
-    application=get_object_or_404(Application,pk=applicantion_id,created_by=request.user)
-    return render(request,'view_application.html',{ 'application':application}) 
+            form.save()
+            return redirect('home')
+    context={'form':form}
+    return render(request,'apply.html',context)

@@ -1,32 +1,34 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# Create your models here.
+class Company(models.Model):
+    user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
+    name=models.CharField(max_length=200,null=True)
+    position=models.CharField(max_length=200,null=True)
+    description=models.CharField(max_length=2000,null=True)
+    salary=models.IntegerField(null=True)
+    experience=models.IntegerField(null=True)
+    Location=models.CharField(max_length=2000,null=True)
+
+    def __str__(self):
+        return self.name
 
 
-class Job(models.Model):
-    title=models.CharField(max_length=200)
-    company = models.CharField(max_length=200)
-    description=models.CharField(max_length=500)
-    created_at = models.DateField(auto_now=True)
-    created_by=models.ForeignKey(User,on_delete=models.CASCADE)
-    end_date=models.DateField()
+class Candidates(models.Model):
+    category=(
+        ('Male','male'),
+        ('Female','female'),
+        ('Other','other'),
+    )
 
-    def __str__(self) -> str:
-        return self.title
-    
+    name=models.CharField(max_length=200,null=True)
+    dob=models.DateField(null=True)
+    gender= models.CharField(max_length=200,null=True,choices=category)
+    mobile= models.CharField(max_length=200,null=True)
+    email= models.CharField(max_length=200,null=True)
+    resume=models.FileField(null=True)
+    company=models.ManyToManyField(Company,blank=True)
 
-class UserProfile(models.Model):
-    user=models.OneToOneField(User, related_name='userprofile', on_delete=models.CASCADE)
-    is_employer=models.BooleanField(default=False)
-
-User.userprofile=property(lambda u:UserProfile.objects.get_or_create(user=u)[0])
-
-
-class Application(models.Model):
-    job=models.ForeignKey(Job, on_delete=models.CASCADE)
-    content=models.TextField()
-    experience=models.TextField()
-
-    created_by=models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at=models.DateTimeField(auto_now_add=True)
-
+    def __str__(self):
+        return self.name

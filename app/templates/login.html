@@ -1,30 +1,33 @@
-{% extends "base.html" %}
-{% block title %}
-    Login
-{% endblock title %}
+{% extends 'main.html' %}
+{% load static%}
 
 {% block content %}
-<div class="col-5 offset-3 mt-5">
+<head>
+    <style>
+        .card{
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<div class="col-6 offset-3">
     <div class="card">
         <div class="card-body">
- <h2 class="my-5 text-center">login</h2>
-           
-                <div class='col'>
-                    <form action="" method="POST" novalidate>
-                         {% csrf_token %}
-                    {% for fm in form %}
-                    {{fm.label_tag }}{{fm}} <small class="text-danger">{{fm.errors|striptags}}</small><br>
-                    {% endfor %}
-                    <input type="submit" value="login" class="btn btn-primary">
-                    {% if form.non_field_errors %}
-                    {% for error in form.non_field_errors %}
-                        <p class="alert alert-danger">{{error}}</p>
-                    {% endfor %}
-                {% endif %}
-                    </form>
-                </div>
-            </div>
-        </div>
- </div>
+            <h3 class="text-center">Login</h3>
+            <form method="POST" action="">
+                {% csrf_token %} 
+                    <div class="form-group">  
+                    <label for="id_email">Username</label>  
+                    <input type="username" class="form-control" id="id_email" name="username">  
+                    </div>  
+                    <div class="form-group">  
+                    <label for="id_password">Password</label>  
+                    <input type="password"  class="form-control" id="id_password" name="password">  
+                    </div><br>
+                    <button type="submit" class="btn btn-success rounded-5 ">Submit</button>  
 
-{% endblock content%}
+                <p class="text-center">Do not have an account<a href='{% url "register" %}' class="text-danger">   Register</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
